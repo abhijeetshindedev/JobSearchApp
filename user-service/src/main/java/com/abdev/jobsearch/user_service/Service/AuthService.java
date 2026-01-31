@@ -1,6 +1,6 @@
 package com.abdev.jobsearch.user_service.Service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
+// import ch.qos.logback.core.net.SyslogOutputStream;
 import com.abdev.jobsearch.user_service.DTO.AuthResponse;
 import com.abdev.jobsearch.user_service.DTO.LoginRequest;
 import com.abdev.jobsearch.user_service.DTO.RegisterRequest;
@@ -9,19 +9,19 @@ import com.abdev.jobsearch.user_service.Entity.User;
 import com.abdev.jobsearch.user_service.Repo.RoleRepo;
 import com.abdev.jobsearch.user_service.Repo.UserRepo;
 import com.abdev.jobsearch.user_service.security.JwtService;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+// import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+// import lombok.AllArgsConstructor;
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
-    private final GoogleTokenVerifierService googleTokenVerifierService;
+//     private final GoogleTokenVerifierService googleTokenVerifierService;
 
     public void register(RegisterRequest request) {
 
@@ -51,23 +51,22 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest request) {
         System.out.println("in login");
-        String email = request.getEmail();
+        // String email = request.getEmail();
+        String email = request.getEmail().trim().toLowerCase();
         String password = request.getPassword();
         System.out.println("email : "+email);
         System.out.println("password : "+password);
-//        Authentication authentication = authManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                       email , password));
+
         try {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
+                            email,
+                            password
                     )
             );
             System.out.println("authentication : "+authentication);
-            UserDetails user =
-                    (UserDetails) authentication.getPrincipal();
+        //     User user = userRepository.findByEmail(email).orElseThrow( () -> new RuntimeException("User not found"));
+            UserDetails user = (UserDetails) authentication.getPrincipal();
             System.out.println("userdetails : "+user);
             String token = jwtService.generateToken(user);
             System.out.println("token : "+token);
@@ -76,41 +75,38 @@ public class AuthService {
             e.printStackTrace(); // shows exact reason
             throw e;
         }
-//        UserDetails user =
-//                new org.springframework.security.core.userdetails.User(
-//                        request.getEmail(), "", List.of());
 
     }
 
-    public AuthResponse googleLogin(String idToken) {
+//     public AuthResponse googleLogin(String idToken) {
 
-        GoogleIdToken.Payload payload =
-                googleTokenVerifierService.verify(idToken);
+//         GoogleIdToken.Payload payload =
+//                 googleTokenVerifierService.verify(idToken);
 
-        String email = payload.getEmail();
-        String googleId = payload.getSubject();
-        String name = (String) payload.get("name");
+//         String email = payload.getEmail();
+//         String googleId = payload.getSubject();
+//         String name = (String) payload.get("name");
 
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> {
+//         User user = userRepository.findByEmail(email)
+//                 .orElseGet(() -> {
 
-                    Role role = roleRepository.findByName("USER")
-                            .orElseThrow();
+//                     Role role = roleRepository.findByName("USER")
+//                             .orElseThrow();
 
-                    User newUser = new User();
-                    newUser.setEmail(email);
-                    newUser.setFullName(name);
-                    newUser.setProvider("GOOGLE");
-                    newUser.setProviderId(googleId);
-                    newUser.getRoles().add(role);
+//                     User newUser = new User();
+//                     newUser.setEmail(email);
+//                     newUser.setFullName(name);
+//                     newUser.setProvider("GOOGLE");
+//                     newUser.setProviderId(googleId);
+//                     newUser.getRoles().add(role);
 
-                    return userRepository.save(newUser);
-                });
+//                     return userRepository.save(newUser);
+//                 });
 
-        UserDetails userDetails =
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(), "", List.of());
+//         UserDetails userDetails =
+//                 new org.springframework.security.core.userdetails.User(
+//                         user.getEmail(), "", List.of());
 
-        return new AuthResponse(jwtService.generateToken(userDetails));
-    }
+//         return new AuthResponse(jwtService.generateToken(userDetails));
+//     }
 }

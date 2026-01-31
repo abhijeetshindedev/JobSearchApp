@@ -11,6 +11,7 @@ public class UserHealthController {
 
     @GetMapping("/health")
     public String healthcheck(){
+        System.out.println("User Service is running on Java 21");
         return "User Service is running on Java 21";
     }
 }

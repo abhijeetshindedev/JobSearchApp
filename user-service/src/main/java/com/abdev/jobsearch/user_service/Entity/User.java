@@ -1,11 +1,8 @@
 package com.abdev.jobsearch.user_service.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +37,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
 
 }

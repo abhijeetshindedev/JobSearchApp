@@ -1,7 +1,6 @@
 package com.abdev.jobsearch.user_service.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 
 @Entity

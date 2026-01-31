@@ -5,7 +5,6 @@ import com.abdev.jobsearch.user_service.DTO.GoogleLoginRequest;
 import com.abdev.jobsearch.user_service.DTO.LoginRequest;
 import com.abdev.jobsearch.user_service.DTO.RegisterRequest;
 import com.abdev.jobsearch.user_service.Service.AuthService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,13 +35,13 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping("/google")
-    public ResponseEntity<AuthResponse> googleLogin(
-            @RequestBody GoogleLoginRequest request) {
+    // @PostMapping("/google")
+    // public ResponseEntity<AuthResponse> googleLogin(
+    //         @RequestBody GoogleLoginRequest request) {
 
-        return ResponseEntity.ok(
-                authService.googleLogin(request.getIdToken())
-        );
-    }
+    //     return ResponseEntity.ok(
+    //             authService.googleLogin(request.getIdToken())
+    //     );
+    // }
 
 }
