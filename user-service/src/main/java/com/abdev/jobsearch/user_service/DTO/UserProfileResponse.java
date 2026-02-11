@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class UserProfileResponse {
 
-    private Long id;
+    // private Long id;
     private String fullName;
     private String headline;
     private String summary;

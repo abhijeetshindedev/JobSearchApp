@@ -16,6 +16,7 @@ import com.abdev.jobsearch.user_service.Entity.User;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 @Service
@@ -37,6 +38,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         System.out.println("secret : "+secret);
         System.out.println("expiration : "+expiration);
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
